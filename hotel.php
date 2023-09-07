@@ -1,3 +1,79 @@
+<?php
+// Array di hotel
+$hotels = [
+    [
+        'name' => 'Hotel Belvedere',
+        'description' => 'Hotel Belvedere Descrizione',
+        'parking' => true,
+        'vote' => 4,
+        'distance_to_center' => 10.4
+    ],
+    [
+        'name' => 'Hotel Futuro',
+        'description' => 'Hotel Futuro Descrizione',
+        'parking' => true,
+        'vote' => 2,
+        'distance_to_center' => 2
+    ],
+    [
+        'name' => 'Hotel Rivamare',
+        'description' => 'Hotel Rivamare Descrizione',
+        'parking' => false,
+        'vote' => 1,
+        'distance_to_center' => 1
+    ],
+    [
+        'name' => 'Hotel Bellavista',
+        'description' => 'Hotel Bellavista Descrizione',
+        'parking' => false,
+        'vote' => 5,
+        'distance_to_center' => 5.5
+    ],
+    [
+        'name' => 'Hotel Milano',
+        'description' => 'Hotel Milano Descrizione',
+        'parking' => true,
+        'vote' => 2,
+        'distance_to_center' => 50
+    ],
+];
+
+// Inizia la tabella Bootstrap
+echo '<table class="table table-striped table-bordered p-4 m-3">';
+echo '<thead>';
+echo '<tr>';
+echo '<th>Name</th>';
+echo '<th>Description</th>';
+echo '<th>Parking</th>';
+echo '<th>Vote</th>';
+echo '<th>Distance to Center (km)</th>';
+echo '</tr>';
+echo '</thead>';
+echo '<tbody>';
+
+// Funzione per stampare una riga di hotel
+function stampaRigaHotel($hotel)
+{
+    echo '<tr class="">';
+    echo '<td>' . $hotel['name'] . '</td>';
+    echo '<td>' . $hotel['description'] . '</td>';
+    echo '<td>' . ($hotel['parking'] ? 'Yes' : 'No') . '</td>';
+    echo '<td>' . $hotel['vote'] . '</td>';
+    echo '<td>' . $hotel['distance_to_center'] . '</td>';
+    echo '</tr>';
+}
+
+// Stampare tutte le righe degli hotel
+foreach ($hotels as $hotel) {
+    stampaRigaHotel($hotel);
+}
+
+// Chiudi la tabella Bootstrap
+echo '</tbody>';
+echo '</table>';
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
