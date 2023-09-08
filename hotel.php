@@ -38,39 +38,31 @@ $hotels = [
     ],
 ];
 
-// Inizia la tabella Bootstrap
-echo '<table class="table table-striped table-bordered p-4 m-3">';
-echo '<thead>';
-echo '<tr>';
-echo '<th>Name</th>';
-echo '<th>Description</th>';
-echo '<th>Parking</th>';
-echo '<th>Vote</th>';
-echo '<th>Distance to Center (km)</th>';
-echo '</tr>';
-echo '</thead>';
-echo '<tbody>';
+// creo delle variabili per filtrare il voto e il parcheggio
 
-// Funzione per stampare una riga di hotel
-function stampaRigaHotel($hotel)
-{
-    echo '<tr class="">';
-    echo '<td>' . $hotel['name'] . '</td>';
-    echo '<td>' . $hotel['description'] . '</td>';
-    echo '<td>' . ($hotel['parking'] ? 'Yes' : 'No') . '</td>';
-    echo '<td>' . $hotel['vote'] . '</td>';
-    echo '<td>' . $hotel['distance_to_center'] . '</td>';
-    echo '</tr>';
+$vote = isset($_GET["vote"]) && trim($_GET["vote"] ) !== "" ? $_GET["vote"] : null;
+$parking = isset($_GET["parking"]) && trim($_GET["parking"]) !== "" ? $_GET["parking"] : null;
+
+$filteredHotels = [];
+
+if ($parking === null && $vote === null) {+*
+    $filteredHotels = $hotels;
+} else {
+    foreach ($hotels as $hotel) {
+        $mustAdd = true;
+
+        if (isset($vote) && isset($parking)) {
+            $mustAdd = ($hotel["vote"] >= $vote && $hotel["parking"] == $parking); 
+        } else if (isset($vote)) {
+            $mustAdd = ($hotel["vote"] >= $vote);
+        } else if (isset($parking)) {
+            $mustAdd = ($hotel["parking"] == $parking);
+        }
+    }
 }
 
-// Stampare tutte le righe degli hotel
-foreach ($hotels as $hotel) {
-    stampaRigaHotel($hotel);
-}
+//
 
-// Chiudi la tabella Bootstrap
-echo '</tbody>';
-echo '</table>';
 ?>
 
 
@@ -98,7 +90,82 @@ echo '</table>';
 </head>
 
 <body>
-    
+
+    <div class="container p-4">
+        <h1 class="text-center">Hotels</h1>
+        <form action="hotel.php" method="GET">
+            <div class="row d-flex justify-content-center p-4">
+                <div class="first-input col-3 text-center d-flex">
+                    <label for="parking" class="mb-2 w-100">
+                        <h2>Parking</h2>
+                    </label>
+
+                    <select name="parking" class="form-select" id="parking">
+                        <option value="null" hidden></option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+
+                <div class="second-input col-3 text-center d-flex">
+                    <label for="vote" class="mb-2 w-100">
+                        <h2>Vote</h2>
+                    </label>
+
+                    <select name="vote" id="vote" class="w-100 form-select">
+                        <option value="null" hidden></option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="container-button text-center">
+                <button type="submit" name="submit" class="btn btn-primary mt-2 mb-2">Filtra</button>
+            </div>
+        </form>
+
+        <?php
+        // Inizio la tabella Bootstrap
+        echo '<table class="table table-striped table-bordered p-4 m-3">';
+        echo '<thead>';
+        echo '<tr>';
+        echo '<th>Name</th>';
+        echo '<th>Description</th>';
+        echo '<th>Parking</th>';
+        echo '<th>Vote</th>';
+        echo '<th>Distance to Center (km)</th>';
+        echo '</tr>';
+        echo '</thead>';
+        echo '<tbody>';
+
+        // Funzione per stampare una riga di hotel
+        function stampaRigaHotel($hotel)
+        {
+            echo '<tr class="">';
+            echo '<td>' . $hotel['name'] . '</td>';
+            echo '<td>' . $hotel['description'] . '</td>';
+            echo '<td>' . ($hotel['parking'] ? 'Yes' : 'No') . '</td>';
+            echo '<td>' . $hotel['vote'] . '</td>';
+            echo '<td>' . $hotel['distance_to_center'] . '</td>';
+            echo '</tr>';
+        }
+
+        // Stampare tutte le righe degli hotel
+        foreach ($hotels as $hotel) {
+            stampaRigaHotel($hotel);
+        }
+
+        // Chiudi la tabella Bootstrap
+        echo '</tbody>';
+        echo '</table>';
+        ?>
+    </div>
+
 </body>
 
 </html>
