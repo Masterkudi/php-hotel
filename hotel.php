@@ -58,6 +58,10 @@ if ($parking === null && $vote === null) {
         } else if (isset($parking)) {
             $mustAdd = ($hotel["parking"] == $parking);
         }
+
+        if ($mustAdd) {
+            $hotels[] = $hotel;
+        }
     }
 }
 
