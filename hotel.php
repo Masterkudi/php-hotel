@@ -45,7 +45,7 @@ $parking = isset($_GET["parking"]) && trim($_GET["parking"]) !== "" ? $_GET["par
 
 $filteredHotels = [];
 
-if ($parking === null && $vote === null) {+*
+if ($parking === null && $vote === null) {
     $filteredHotels = $hotels;
 } else {
     foreach ($hotels as $hotel) {
